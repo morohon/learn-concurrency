@@ -20,7 +20,7 @@ public class AsyncClassTest {
     @Async
     public void runAsyncTask() {
         System.out.println("runAsyncTask: " + Thread.currentThread().getName());
-        internalTask();
+        executor.submit(() -> internalTask());
     }
 
     public void internalTask() {
