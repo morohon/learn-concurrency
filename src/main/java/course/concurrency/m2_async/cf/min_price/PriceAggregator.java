@@ -21,17 +21,17 @@ public class PriceAggregator {
     }
 
     private Collection<Long> shopIds = Set.of(10l, 45l, 66l, 345l, 234l, 333l, 67l, 123l, 768l);
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public void setShops(Collection<Long> shopIds) {
         this.shopIds = shopIds;
     }
 
     public double getMinPrice(long itemId) {
-        ExecutorService executorService = Executors.newFixedThreadPool(shopIds.size());
         List<CompletableFuture<Double>> futures = shopIds
                 .stream()
                 .map(shopId -> CompletableFuture.supplyAsync(() -> priceRetriever.getPrice(itemId, shopId), executorService)
-                        .handle((result, throwable) -> throwable == null ? result : null ))
+                        .exceptionally(throwable -> null))
                 .collect(Collectors.toList());
         return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new))
                 .completeOnTimeout(null, TIMEOUT, TimeUnit.MILLISECONDS)
