@@ -31,13 +31,13 @@ public class PriceAggregator {
         List<CompletableFuture<Double>> futures = shopIds
                 .stream()
                 .map(shopId -> CompletableFuture.supplyAsync(() -> priceRetriever.getPrice(itemId, shopId), executorService)
+                        .completeOnTimeout(null, TIMEOUT, TimeUnit.MILLISECONDS)
                         .exceptionally(throwable -> null))
                 .collect(Collectors.toList());
         return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new))
                 .completeOnTimeout(null, TIMEOUT, TimeUnit.MILLISECONDS)
                 .thenApply(cf -> futures
                         .stream()
-                        .filter(CompletableFuture::isDone)
                         .map(CompletableFuture::join)
                         .filter(Objects::nonNull)
                         .min(Comparator.naturalOrder())
