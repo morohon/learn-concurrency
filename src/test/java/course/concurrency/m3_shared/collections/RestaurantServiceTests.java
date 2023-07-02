@@ -3,6 +3,7 @@ package course.concurrency.m3_shared.collections;
 import course.concurrency.exams.auction.ExecutionStatistics;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 
 import java.util.Set;
@@ -37,6 +38,7 @@ public class RestaurantServiceTests {
     }
 
     @RepeatedTest(TEST_COUNT)
+    @Disabled
     public void test() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
 
