@@ -35,7 +35,12 @@ public class AuctionStoppablePessimistic implements AuctionStoppable {
     }
 
     public Bid stopAuction() {
-        threshold = true;
-        return latestBid;
+        try {
+            lock.lock();
+            threshold = true;
+            return latestBid;
+        } finally {
+            lock.unlock();
+        }
     }
 }
