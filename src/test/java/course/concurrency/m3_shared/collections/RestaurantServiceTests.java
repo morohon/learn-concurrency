@@ -38,7 +38,6 @@ public class RestaurantServiceTests {
     }
 
     @RepeatedTest(TEST_COUNT)
-    @Disabled
     public void test() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
 
