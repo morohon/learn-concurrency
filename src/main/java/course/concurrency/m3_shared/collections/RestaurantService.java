@@ -23,7 +23,7 @@ public class RestaurantService {
     }
 
     public void addToStat(String restaurantName) {
-        stat.compute(restaurantName, (s, integer) -> integer == null ? 1 : ++integer);
+        stat.merge(restaurantName, 1, (integer, integer2) -> ++integer);
     }
 
     public Set<String> printStat() {
