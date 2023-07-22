@@ -27,7 +27,11 @@ public class Order {
     }
 
     public Order withStatus(Status status) {
-        return new Order(this.id, this.items, this.paymentInfo, this.isPacked, status);
+        if (this.status.equals(status)) {
+            return this;
+        } else {
+            return new Order(this.id, this.items, this.paymentInfo, this.isPacked, status);
+        }
     }
 
     public synchronized boolean checkStatus() {

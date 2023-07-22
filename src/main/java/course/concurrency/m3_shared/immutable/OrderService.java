@@ -36,13 +36,7 @@ public class OrderService {
     }
 
     private void deliver(Order order) {
-        currentOrders.compute(order.getId(), (aLong, findedOrder) -> {
-            if (Order.Status.DELIVERED.equals(findedOrder.getStatus())) {
-                return findedOrder;
-            } else {
-                return findedOrder.withStatus(Order.Status.DELIVERED);
-            }
-        });
+        currentOrders.compute(order.getId(), (aLong, findedOrder) -> findedOrder.withStatus(Order.Status.DELIVERED));
     }
 
     public boolean isDelivered(long orderId) {
