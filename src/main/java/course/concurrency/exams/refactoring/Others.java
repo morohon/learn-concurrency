@@ -60,4 +60,29 @@ public class Others {
             return ThreadLocalRandom.current().nextBoolean();
         }
     }
+
+    public static class UpdateTask {
+
+        private final Others.MountTableManager manager;
+        private final String adminAddress;
+        private boolean success;
+
+        public UpdateTask(Others.MountTableManager manager,
+                          String adminAddress) {
+            this.manager = manager;
+            this.adminAddress = adminAddress;
+        }
+
+        public String getAdminAddress() {
+            return adminAddress;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public void refresh() {
+            success = manager.refresh();
+        }
+    }
 }
